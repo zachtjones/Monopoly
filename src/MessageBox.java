@@ -44,7 +44,7 @@ public class MessageBox {
 	
 	/**
 	 * Shows an Alert with the title, caption, and an "OK" button. 
-	 * Does not return a value;
+	 * Does not return a value.
 	 * @param title The string to display in the window's title
 	 * @param caption The string to display in the content of the window
 	 */
