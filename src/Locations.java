@@ -1,4 +1,5 @@
-import org.eclipse.swt.graphics.Point;
+import javafx.geometry.Point2D;
+
 /**
  * This class is used to get the relative percentages on the board, names of places, costs, and houses and hotels.
  * 
@@ -6,61 +7,64 @@ import org.eclipse.swt.graphics.Point;
  *
  */
 public class Locations {
+	
 	/**
-	 * This returns the org.eclipse.swt.graphics.Point that corresponds to the location to draw the characters on the map.
-	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 0 is go, with 39 as boardwalk.
+	 * This returns the Point2D that corresponds to the location to draw the characters on the map.
+	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 
+	 * 0 is go, with 39 as boardwalk.
 	 * @return The point with (1500, 1500) being the bottom right
 	 */
-	public static Point getPoint(int locationOnBoard) {
-		Point pt = new Point(0,0);
+	public static Point2D getPoint(int locationOnBoard) {
+		Point2D pt = new Point2D(0,0);
 		switch (locationOnBoard) {
-		case 0: pt = new Point(1415, 1415); break;
-		case 1: pt = new Point(1245, 1415); break;
-		case 2: pt = new Point(1125, 1415); break;
-		case 3: pt = new Point(1005, 1415); break;
-		case 4: pt = new Point(870, 1415); break;
-		case 5: pt = new Point(750, 1415); break;
-		case 6: pt = new Point(630, 1415); break;
-		case 7: pt = new Point(500, 1415); break;
-		case 8: pt = new Point(380, 1415); break;
-		case 9: pt = new Point(260, 1415); break;
-		case 10: pt = new Point(30, 1470); break;
-		case 11: pt = new Point(75, 1240); break;
-		case 12: pt = new Point(75, 1120); break;
-		case 13: pt = new Point(75, 1000); break;
-		case 14: pt = new Point(75, 880); break;
-		case 15: pt = new Point(75, 750); break;
-		case 16: pt = new Point(75, 630); break;
-		case 17: pt = new Point(75, 510); break;
-		case 18: pt = new Point(75, 390); break;
-		case 19: pt = new Point(75, 260); break;
-		case 20: pt = new Point(100, 100); break;
-		case 21: pt = new Point(260, 75); break;
-		case 22: pt = new Point(380, 75); break;
-		case 23: pt = new Point(500, 75); break;
-		case 24: pt = new Point(630, 75); break;
-		case 25: pt = new Point(750, 75); break;
-		case 26: pt = new Point(870, 75); break;
-		case 27: pt = new Point(1005, 75); break;
-		case 28: pt = new Point(1125, 75); break;
-		case 29: pt = new Point(1245, 75); break;
-		case 30: pt = new Point(130, 1370); break;//new Point(1400, 100); break;//the larger point is the GO TO Jail spot
-		case 31: pt = new Point(1415, 260); break;
-		case 32: pt = new Point(1415, 390); break;
-		case 33: pt = new Point(1415, 510); break;
-		case 34: pt = new Point(1415, 630); break;
-		case 35: pt = new Point(1415, 750); break;
-		case 36: pt = new Point(1415, 880); break;
-		case 37: pt = new Point(1415, 1000); break;
-		case 38: pt = new Point(1415, 1120); break;
-		case 39: pt = new Point(1415, 1240); break;
+		case 0: pt = new Point2D(1415, 1415); break;
+		case 1: pt = new Point2D(1245, 1415); break;
+		case 2: pt = new Point2D(1125, 1415); break;
+		case 3: pt = new Point2D(1005, 1415); break;
+		case 4: pt = new Point2D(870, 1415); break;
+		case 5: pt = new Point2D(750, 1415); break;
+		case 6: pt = new Point2D(630, 1415); break;
+		case 7: pt = new Point2D(500, 1415); break;
+		case 8: pt = new Point2D(380, 1415); break;
+		case 9: pt = new Point2D(260, 1415); break;
+		case 10: pt = new Point2D(30, 1470); break;
+		case 11: pt = new Point2D(75, 1240); break;
+		case 12: pt = new Point2D(75, 1120); break;
+		case 13: pt = new Point2D(75, 1000); break;
+		case 14: pt = new Point2D(75, 880); break;
+		case 15: pt = new Point2D(75, 750); break;
+		case 16: pt = new Point2D(75, 630); break;
+		case 17: pt = new Point2D(75, 510); break;
+		case 18: pt = new Point2D(75, 390); break;
+		case 19: pt = new Point2D(75, 260); break;
+		case 20: pt = new Point2D(100, 100); break;
+		case 21: pt = new Point2D(260, 75); break;
+		case 22: pt = new Point2D(380, 75); break;
+		case 23: pt = new Point2D(500, 75); break;
+		case 24: pt = new Point2D(630, 75); break;
+		case 25: pt = new Point2D(750, 75); break;
+		case 26: pt = new Point2D(870, 75); break;
+		case 27: pt = new Point2D(1005, 75); break;
+		case 28: pt = new Point2D(1125, 75); break;
+		case 29: pt = new Point2D(1245, 75); break;
+		case 30: pt = new Point2D(130, 1370); break;
+		case 31: pt = new Point2D(1415, 260); break;
+		case 32: pt = new Point2D(1415, 390); break;
+		case 33: pt = new Point2D(1415, 510); break;
+		case 34: pt = new Point2D(1415, 630); break;
+		case 35: pt = new Point2D(1415, 750); break;
+		case 36: pt = new Point2D(1415, 880); break;
+		case 37: pt = new Point2D(1415, 1000); break;
+		case 38: pt = new Point2D(1415, 1120); break;
+		case 39: pt = new Point2D(1415, 1240); break;
 		}
 		return pt;
 	}
 	
 	/**
-	 * 
-	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 0 is go, with 39 as boardwalk.
+	 * Gets the name of the location on the board. 
+	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 
+	 * 0 is go, with 39 as boardwalk.
 	 * @return The name to display on the board
 	 */
 	public static String getName(int locationOnBoard) {
@@ -111,9 +115,12 @@ public class Locations {
 	}
 	
 	/**
-	 * 
-	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 0 is go, with 39 as boardwalk.
-	 * @return The cost in dollars to buy the property. One half this cost is the amount that is given to a player from the bank when it is mortgaged. 0 is returned for properties that the player can not buy.
+	 * Gets the cost to buy the property.
+	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board.
+	 *  0 is go, with 39 as boardwalk.
+	 * @return The cost in dollars to buy the property. 
+	 * One half this cost is the amount that is given to a player from the bank when it is mortgaged. 
+	 * 0 is returned for properties that the player can not buy.
 	 */
 	public static int costToBuy(int locationOnBoard) {
 		int rtn = 0;
@@ -162,14 +169,21 @@ public class Locations {
 		return rtn;
 		
 	}
+	
 	/**
 	 * This method returns the cost due to the player that owns the property. <br>
 	 * If there are no houses and one player owns all two/three of the same 
-	 * type, then the rent is automatically doubled. <br><b>Only call this method if the property is not mortgaged or unowned.</b>
-	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 0 is go, with 39 as boardwalk.
-	 * @param numberHouses A number from 0 to 5, inclusive that specifies the number of houses on a property. 5 represents a hotel.
-	 * @param numRolled The number corresponding to the sum of the two die rolled for the player to land on this property. <br>
-	 * This parameter is only used if the player lands on Electric Company or Water Works
+	 * type, then the rent is automatically doubled. 
+	 * <br><b>Only call this method if the property is not mortgaged or unowned.</b>
+	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 
+	 * 0 is go, with 39 as boardwalk.
+	 * @param numberHouses 
+	 * A number from 0 to 5, inclusive that specifies the number of houses on a property. 
+	 * 5 represents a hotel.
+	 * @param numRolled 
+	 * The number corresponding to the sum of the two die rolled 
+	 * 	for the player to land on this property.
+	 * <br>This parameter is only used if the player lands on Electric Company or Water Works
 	 * @return The rent owed to the player that owns the property
 	 */
 	public static int rentOwed(int locationOnBoard, int numberHouses, int numRolled) {
@@ -204,27 +218,65 @@ public class Locations {
 			//test to see if the rent needs doubled
 			switch (locationOnBoard) {
 			case 1: 
-			case 3: if (Monopoly.propertyOwns[1] == Monopoly.propertyOwns[3]) {	doubleRent = true; } break;
+			case 3: 
+				if (Monopoly.propertyOwns[1] == Monopoly.propertyOwns[3]) {
+					doubleRent = true; 
+				}
+				break;
 			case 6: 
 			case 8: 
-			case 9: if (Monopoly.propertyOwns[6] == Monopoly.propertyOwns[8] && Monopoly.propertyOwns[8] == Monopoly.propertyOwns[9]) { doubleRent = true; } break;
+			case 9: 
+				if (Monopoly.propertyOwns[6] == Monopoly.propertyOwns[8] &&
+					Monopoly.propertyOwns[8] == Monopoly.propertyOwns[9]) { 
+						doubleRent = true; 
+				} 
+				break;
 			case 11: 
 			case 13: 
-			case 14: if (Monopoly.propertyOwns[11] == Monopoly.propertyOwns[13] && Monopoly.propertyOwns[13] == Monopoly.propertyOwns[14]) { doubleRent = true; } break;
+			case 14: 
+				if (Monopoly.propertyOwns[11] == Monopoly.propertyOwns[13] && 
+					Monopoly.propertyOwns[13] == Monopoly.propertyOwns[14]) {
+						doubleRent = true; 
+				} 
+				break;
 			case 16: 
 			case 18: 
-			case 19: if (Monopoly.propertyOwns[16] == Monopoly.propertyOwns[18] && Monopoly.propertyOwns[18] == Monopoly.propertyOwns[19]) { doubleRent = true; } break;
+			case 19: 
+				if (Monopoly.propertyOwns[16] == Monopoly.propertyOwns[18] && 
+					Monopoly.propertyOwns[18] == Monopoly.propertyOwns[19]) { 
+						doubleRent = true; 
+				} 
+				break;
 			case 21:
 			case 23: 
-			case 24: if (Monopoly.propertyOwns[21] == Monopoly.propertyOwns[23] && Monopoly.propertyOwns[23] == Monopoly.propertyOwns[24]) { doubleRent = true; } break;
+			case 24: 
+				if (Monopoly.propertyOwns[21] == Monopoly.propertyOwns[23] && 
+					Monopoly.propertyOwns[23] == Monopoly.propertyOwns[24]) { 
+						doubleRent = true; 
+				} 
+				break;
 			case 26:
 			case 27:
-			case 29: if (Monopoly.propertyOwns[26] == Monopoly.propertyOwns[27] && Monopoly.propertyOwns[27] == Monopoly.propertyOwns[29]) { doubleRent = true; } break;
+			case 29: 
+				if (Monopoly.propertyOwns[26] == Monopoly.propertyOwns[27] && 
+					Monopoly.propertyOwns[27] == Monopoly.propertyOwns[29]) { 
+						doubleRent = true; 
+				} 
+				break;
 			case 31: 
 			case 32: 
-			case 34: if (Monopoly.propertyOwns[31] == Monopoly.propertyOwns[32] && Monopoly.propertyOwns[32] == Monopoly.propertyOwns[34]) { doubleRent = true; } break;
+			case 34: 
+				if (Monopoly.propertyOwns[31] == Monopoly.propertyOwns[32] && 
+					Monopoly.propertyOwns[32] == Monopoly.propertyOwns[34]) { 
+						doubleRent = true; 
+				} 
+				break;
 			case 37: 
-			case 39: if (Monopoly.propertyOwns[37] == Monopoly.propertyOwns[39]) {	doubleRent = true; } break;
+			case 39: 
+				if (Monopoly.propertyOwns[37] == Monopoly.propertyOwns[39]) {
+					doubleRent = true; 
+				} 
+				break;
 			}
 			if (doubleRent) {
 				temp *= 2;
@@ -367,80 +419,94 @@ public class Locations {
 		case 35: temp = 25; break;
 		}
 		
+		int five = Monopoly.propertyOwns[5];
+		int fifteen = Monopoly.propertyOwns[15];
+		int twentyFive = Monopoly.propertyOwns[25];
+		int thirtyFive = Monopoly.propertyOwns[35];
+		
 		switch (locationOnBoard) {
 		case 5: 
-			if (Monopoly.propertyOwns[5] == Monopoly.propertyOwns[15] 
-					|| Monopoly.propertyOwns[5] == Monopoly.propertyOwns[25] 
-					|| Monopoly.propertyOwns[5] == Monopoly.propertyOwns[35]) { temp = 50; } 
-			if ((Monopoly.propertyOwns[5] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[5] == Monopoly.propertyOwns[25]) 
-					|| (Monopoly.propertyOwns[5] == Monopoly.propertyOwns[25] && Monopoly.propertyOwns[5] == Monopoly.propertyOwns[35]) 
-					|| (Monopoly.propertyOwns[5] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[5] == Monopoly.propertyOwns[35])) { temp = 100; }
-			if (Monopoly.propertyOwns[5] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[15] == Monopoly.propertyOwns[25] && Monopoly.propertyOwns[25] == Monopoly.propertyOwns[35]) {temp = 200;} 
+			if (five == fifteen 
+					|| five == twentyFive 
+					|| five == thirtyFive) { temp = 50; } 
+			if ((five == fifteen && five == twentyFive) 
+					|| (five == twentyFive && five == thirtyFive) 
+					|| (five == fifteen && five == thirtyFive)) { temp = 100; }
+			if (five == fifteen && fifteen == twentyFive && twentyFive == thirtyFive) {temp = 200;} 
 			break;
 		case 15: 
-			if (Monopoly.propertyOwns[15] == Monopoly.propertyOwns[5] 
-					|| Monopoly.propertyOwns[15] == Monopoly.propertyOwns[25] 
-					|| Monopoly.propertyOwns[15] == Monopoly.propertyOwns[35]) { temp = 50; } 
-			if ((Monopoly.propertyOwns[15] == Monopoly.propertyOwns[5] && Monopoly.propertyOwns[15] == Monopoly.propertyOwns[25]) 
-					|| (Monopoly.propertyOwns[15] == Monopoly.propertyOwns[5] && Monopoly.propertyOwns[15] == Monopoly.propertyOwns[35]) 
-					|| (Monopoly.propertyOwns[15] == Monopoly.propertyOwns[25] && Monopoly.propertyOwns[15] == Monopoly.propertyOwns[35])) { temp = 100; }
-			if (Monopoly.propertyOwns[5] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[15] == Monopoly.propertyOwns[25] && Monopoly.propertyOwns[25] == Monopoly.propertyOwns[35]) {temp = 200;} 
+			if (fifteen == five 
+					|| fifteen == twentyFive 
+					|| fifteen == thirtyFive) { temp = 50; } 
+			if ((fifteen == five && fifteen == twentyFive) 
+					|| (fifteen == five && fifteen == thirtyFive) 
+					|| (fifteen == twentyFive && fifteen == thirtyFive)) { temp = 100; }
+			if (five == fifteen && fifteen == twentyFive && twentyFive == thirtyFive) {temp = 200;} 
 			break;
 		case 25:
-			if (Monopoly.propertyOwns[25] == Monopoly.propertyOwns[5] 
-					|| Monopoly.propertyOwns[25] == Monopoly.propertyOwns[15] 
-					|| Monopoly.propertyOwns[25] == Monopoly.propertyOwns[35]) { temp = 50; } 
-			if ((Monopoly.propertyOwns[25] == Monopoly.propertyOwns[5] && Monopoly.propertyOwns[25] == Monopoly.propertyOwns[15]) 
-					|| (Monopoly.propertyOwns[25] == Monopoly.propertyOwns[5] && Monopoly.propertyOwns[25] == Monopoly.propertyOwns[35]) 
-					|| (Monopoly.propertyOwns[25] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[25] == Monopoly.propertyOwns[35])) { temp = 100; }
-			if (Monopoly.propertyOwns[5] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[15] == Monopoly.propertyOwns[25] && Monopoly.propertyOwns[25] == Monopoly.propertyOwns[35]) {temp = 200;} 
+			if (twentyFive == five 
+					|| twentyFive == fifteen 
+					|| twentyFive == thirtyFive) { temp = 50; } 
+			if ((twentyFive == five && twentyFive == fifteen) 
+					|| (twentyFive == five && twentyFive == thirtyFive) 
+					|| (twentyFive == fifteen && twentyFive == thirtyFive)) { temp = 100; }
+			if (five == fifteen && fifteen == twentyFive && twentyFive == thirtyFive) {temp = 200;} 
 			break;
 		case 35: 
-			if (Monopoly.propertyOwns[35] == Monopoly.propertyOwns[5] 
-					|| Monopoly.propertyOwns[35] == Monopoly.propertyOwns[15] 
-					|| Monopoly.propertyOwns[35] == Monopoly.propertyOwns[25]) { temp = 50; } 
-			if ((Monopoly.propertyOwns[35] == Monopoly.propertyOwns[5] && Monopoly.propertyOwns[35] == Monopoly.propertyOwns[15]) 
-					|| (Monopoly.propertyOwns[35] == Monopoly.propertyOwns[5] && Monopoly.propertyOwns[35] == Monopoly.propertyOwns[25]) 
-					|| (Monopoly.propertyOwns[35] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[35] == Monopoly.propertyOwns[25])) { temp = 100; }
-			if (Monopoly.propertyOwns[5] == Monopoly.propertyOwns[15] && Monopoly.propertyOwns[15] == Monopoly.propertyOwns[25] && Monopoly.propertyOwns[25] == Monopoly.propertyOwns[35]) {temp = 200;} 
+			if (thirtyFive == five 
+					|| thirtyFive == fifteen 
+					|| thirtyFive == twentyFive) { temp = 50; } 
+			if ((thirtyFive == five && thirtyFive == fifteen) 
+					|| (thirtyFive == five && thirtyFive == twentyFive) 
+					|| (thirtyFive == fifteen && thirtyFive == twentyFive)) { temp = 100; }
+			if (five == fifteen && fifteen == twentyFive && twentyFive == thirtyFive) {temp = 200;} 
 			break;
 		case 12: 
-		case 28: if (Monopoly.propertyOwns[12] == Monopoly.propertyOwns[28]) { temp = 10 * numRolled; }; break;
+		case 28: 
+			if (Monopoly.propertyOwns[12] == Monopoly.propertyOwns[28]) { 
+				temp = 10 * numRolled; 
+			} 
+			break;
 		}
 		
 		return temp;
 		
 	}
+
 	/**
-	 * This method return the SWT Point that should be the location of the house drawn on top of the game board.
-	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 0 is go, with 39 as boardwalk.
-	 * @param numHouse The number of the house on that property. Should be from 1 to 4 inclusive. For a hotel, use 2 and draw 3 times a wide.
-	 * @return The SWT Point that corresponds to the top left coordinate on the 1500 X 1500 game board image
+	 * This method return the Point2D that is the location of the house drawn on the game board.
+	 * @param locationOnBoard The number from 0 to 39, inclusive that is the position on the board. 
+	 * 0 is go, with 39 as boardwalk.
+	 * @param numHouse The number of the house on that property. Should be from 1 to 4 inclusive. 
+	 * For a hotel, use 2 and draw 3 times as wide.
+	 * @return 
+	 * The Point2D that corresponds to the top left coordinate on the 1500 X 1500 game board image
 	 */
-	public static Point getLocation(int locationOnBoard, int numHouse) {
-		int x = 0, y = 0;
+	public static Point2D getLocation(int locationOnBoard, int numHouse) {
+		double x = 0;
+		double y = 0;
 		if (locationOnBoard > 0 && locationOnBoard < 10) {
 			y = 1300;
-			x = getPoint(locationOnBoard).x;
+			x = getPoint(locationOnBoard).getX();
 			x -= (numHouse - 2) * 25;
 		}
 		if (locationOnBoard > 10 && locationOnBoard < 20) {
 			x = 150;
-			y = getPoint(locationOnBoard).y;
+			y = getPoint(locationOnBoard).getY();
 			y -= (numHouse - 2) * 25;
 		}
 		if (locationOnBoard > 20 && locationOnBoard < 30) {
 			y = 150;
-			x = getPoint(locationOnBoard).x;
+			x = getPoint(locationOnBoard).getX();
 			x += (numHouse - 2) * 25;
 		}
 		if (locationOnBoard > 30 && locationOnBoard < 40) {
 			x = 1300;
-			y = getPoint(locationOnBoard).y;
+			y = getPoint(locationOnBoard).getY();
 			y += (numHouse - 2) * 25;
 		}
 		
-		return new Point(x, y);
+		return new Point2D(x, y);
 	}
 	
 	/**
@@ -502,50 +568,57 @@ public class Locations {
 	 * @return if the player can add houses on the id group specified
 	 */
 	public static boolean canAddHouses(int id, int playerNum) {
-		boolean good = false;
 		switch(id) {
 		case 0:
-			if (Monopoly.propertyOwns[1] == playerNum && Monopoly.propertyOwns[3] == playerNum && Monopoly.propertyHouses[1] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[1] == playerNum && Monopoly.propertyOwns[3] == playerNum 
+					&& Monopoly.propertyHouses[1] != 5) {
+				return true;
 			}
 			break;
 		case 1:
-			if (Monopoly.propertyOwns[6] == playerNum && Monopoly.propertyOwns[8] == playerNum && Monopoly.propertyOwns[9] == playerNum && Monopoly.propertyHouses[6] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[6] == playerNum && Monopoly.propertyOwns[8] == playerNum 
+					&& Monopoly.propertyOwns[9] == playerNum && Monopoly.propertyHouses[6] != 5) {
+				return true;
 			}
 			break;
 		case 2:
-			if (Monopoly.propertyOwns[11] == playerNum && Monopoly.propertyOwns[13] == playerNum && Monopoly.propertyOwns[14] == playerNum && Monopoly.propertyHouses[11] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[11] == playerNum && Monopoly.propertyOwns[13] == playerNum 
+					&& Monopoly.propertyOwns[14] == playerNum && Monopoly.propertyHouses[11] != 5) {
+				return true;
 			} 
 			break;
 		case 3:
-			if (Monopoly.propertyOwns[16] == playerNum && Monopoly.propertyOwns[18] == playerNum && Monopoly.propertyOwns[19] == playerNum && Monopoly.propertyHouses[16] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[16] == playerNum && Monopoly.propertyOwns[18] == playerNum 
+					&& Monopoly.propertyOwns[19] == playerNum && Monopoly.propertyHouses[16] != 5) {
+				return true;
 			}
 			break;
 		case 4:
-			if (Monopoly.propertyOwns[21] == playerNum && Monopoly.propertyOwns[23] == playerNum && Monopoly.propertyOwns[24] == playerNum && Monopoly.propertyHouses[21] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[21] == playerNum && Monopoly.propertyOwns[23] == playerNum 
+					&& Monopoly.propertyOwns[24] == playerNum && Monopoly.propertyHouses[21] != 5) {
+				return true;
 			}
 			break;
 		case 5:
-			if (Monopoly.propertyOwns[26] == playerNum && Monopoly.propertyOwns[27] == playerNum && Monopoly.propertyOwns[29] == playerNum && Monopoly.propertyHouses[26] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[26] == playerNum && Monopoly.propertyOwns[27] == playerNum 
+					&& Monopoly.propertyOwns[29] == playerNum && Monopoly.propertyHouses[26] != 5) {
+				return true;
 			}
 			break;
 		case 6:
-			if (Monopoly.propertyOwns[31] == playerNum && Monopoly.propertyOwns[32] == playerNum && Monopoly.propertyOwns[34] == playerNum && Monopoly.propertyHouses[31] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[31] == playerNum && Monopoly.propertyOwns[32] == playerNum 
+					&& Monopoly.propertyOwns[34] == playerNum && Monopoly.propertyHouses[31] != 5) {
+				return true;
 			}
 			break;
 		case 7:
-			if (Monopoly.propertyOwns[37] == playerNum && Monopoly.propertyOwns[39] == playerNum && Monopoly.propertyHouses[37] != 5) {
-				good = true;
+			if (Monopoly.propertyOwns[37] == playerNum && Monopoly.propertyOwns[39] == playerNum
+					&& Monopoly.propertyHouses[37] != 5) {
+				return true;
 			}
 			break;
 		}
-		return good;
+		return false;
 	}
 	
 	/**
@@ -555,51 +628,59 @@ public class Locations {
 	 * @return if the player can add houses on the id group specified
 	 */
 	public static boolean canRemoveHouses(int id, int playerNum) {
-		boolean good = false;
 		switch(id) {
 		case 0:
-			if (Monopoly.propertyOwns[1] == playerNum && Monopoly.propertyOwns[3] == playerNum && Monopoly.propertyHouses[1] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[1] == playerNum && Monopoly.propertyOwns[3] == playerNum && 
+					Monopoly.propertyHouses[1] != 0) {
+				return true;
 			}
 			break;
 		case 1:
-			if (Monopoly.propertyOwns[6] == playerNum && Monopoly.propertyOwns[8] == playerNum && Monopoly.propertyOwns[9] == playerNum && Monopoly.propertyHouses[6] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[6] == playerNum && Monopoly.propertyOwns[8] == playerNum && 
+					Monopoly.propertyOwns[9] == playerNum && Monopoly.propertyHouses[6] != 0) {
+				return true;
 			}
 			break;
 		case 2:
-			if (Monopoly.propertyOwns[11] == playerNum && Monopoly.propertyOwns[13] == playerNum && Monopoly.propertyOwns[14] == playerNum && Monopoly.propertyHouses[11] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[11] == playerNum && Monopoly.propertyOwns[13] == playerNum && 
+					Monopoly.propertyOwns[14] == playerNum && Monopoly.propertyHouses[11] != 0) {
+				return true;
 			} 
 			break;
 		case 3:
-			if (Monopoly.propertyOwns[16] == playerNum && Monopoly.propertyOwns[18] == playerNum && Monopoly.propertyOwns[19] == playerNum && Monopoly.propertyHouses[16] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[16] == playerNum && Monopoly.propertyOwns[18] == playerNum && 
+					Monopoly.propertyOwns[19] == playerNum && Monopoly.propertyHouses[16] != 0) {
+				return true;
 			}
 			break;
 		case 4:
-			if (Monopoly.propertyOwns[21] == playerNum && Monopoly.propertyOwns[23] == playerNum && Monopoly.propertyOwns[24] == playerNum && Monopoly.propertyHouses[21] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[21] == playerNum && Monopoly.propertyOwns[23] == playerNum && 
+					Monopoly.propertyOwns[24] == playerNum && Monopoly.propertyHouses[21] != 0) {
+				return true;
 			}
 			break;
 		case 5:
-			if (Monopoly.propertyOwns[26] == playerNum && Monopoly.propertyOwns[27] == playerNum && Monopoly.propertyOwns[29] == playerNum && Monopoly.propertyHouses[26] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[26] == playerNum && Monopoly.propertyOwns[27] == playerNum && 
+					Monopoly.propertyOwns[29] == playerNum && Monopoly.propertyHouses[26] != 0) {
+				return true;
 			}
 			break;
 		case 6:
-			if (Monopoly.propertyOwns[31] == playerNum && Monopoly.propertyOwns[32] == playerNum && Monopoly.propertyOwns[34] == playerNum && Monopoly.propertyHouses[31] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[31] == playerNum && Monopoly.propertyOwns[32] == playerNum && 
+					Monopoly.propertyOwns[34] == playerNum && Monopoly.propertyHouses[31] != 0) {
+				return true;
 			}
 			break;
 		case 7:
-			if (Monopoly.propertyOwns[37] == playerNum && Monopoly.propertyOwns[39] == playerNum && Monopoly.propertyHouses[37] != 0) {
-				good = true;
+			if (Monopoly.propertyOwns[37] == playerNum && Monopoly.propertyOwns[39] == playerNum && 
+					Monopoly.propertyHouses[37] != 0) {
+				return true;
 			}
 			break;
 		}
-		return good;
+		return false;
 	}
+
 	/**
 	 * This method returns the cost to either buy or sell numberOfHouses houses on a group.
 	 * @param id The number of the group from 0 to 7, inclusive.
@@ -687,35 +768,11 @@ public class Locations {
 		}
 		return temp;
 	}
-	/**
-	 * This method shows the total value of the player.
-	 * @param player The number of the player, starting at 1
-	 * @return The total value of the player.
-	 */
-	public static int netWorth(int player) {
-		int value = 0;
-		for (int i = 1; i < 40; i++) {
-			if(Monopoly.propertyOwns[i] == player) {
-				value += costToBuy(i);
-				if(i < 10) {
-					value += Monopoly.propertyHouses[i] * 50;
-				} else if (i < 20) {
-					value += Monopoly.propertyHouses[i] * 100;
-				} else if (i < 30) {
-					value += Monopoly.propertyHouses[i] * 150;
-				} else if (i < 40) {
-					value += Monopoly.propertyHouses[i] * 200;
-				}
-				
-			}
-		}
-		value += Monopoly.playerMoney[player - 1];
-		return value;
-	}
+	
 	/**
 	 * This method returns the cost of the repairs card on chance ($25 per house, $100 per hotel)
 	 * @param player The number of the player, starting at 1
-	 * @return
+	 * @return an int that is the cost for the repairs card in Chance
 	 */
 	public static int costOfRepairsChance(int player) {
 		int value = 0;
@@ -731,10 +788,11 @@ public class Locations {
 		}
 		return value;
 	}
+	
 	/**
 	 * This method returns the cost of the repairs card on community chest ($40 per house, $115 per hotel)
 	 * @param player The number of the player, starting at 1
-	 * @return
+	 * @return an int that is the cost for the repairs card in Community Chest
 	 */
 	public static int costOfRepairsCommunityChest(int player){
 		int value = 0;
