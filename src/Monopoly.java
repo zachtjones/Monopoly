@@ -32,7 +32,7 @@ import javafx.stage.Stage;
  *
  */
 public class Monopoly extends Application {
-	
+	//TODO- remove the BetterString class and replace with java String.format(stuff);
 	public Stage primaryStage;
 	public Canvas backgroundCanvas;
 	public Image bgImg; 
@@ -43,28 +43,20 @@ public class Monopoly extends Application {
 	public Button btnOpenGame;
 	public Button btnSaveGame;
 	public Button btnHouseHotel;
-	
 	public Image die1, die2, die3, die4, die5, die6;
-	
 	public Image p1, p2, p3, p4, p5, p6, p7, p8;
-	
 	public Image houseImg;
 	public Image hotelImg;
-	
 	public Canvas playerPreviewCanvas;
 	public Label lblCurrentPlayer;
-
 	public int numPlayers;
 	public int[] playerLocations = {0, 0, 0, 0};
 	public int[] playerMoney = {0,0,0,0};
 	public int currentPlayer = 1;
 	public String fileName = "";
-	
 	public static int[] propertyOwns = new int[40]; //the player that owns each property: 0 is bank, 1 is player 1, 2 is player 2, ...
 	public static int[] propertyHouses = new int[40]; //the number of houses on each property: 5 is a hotel
-	
 	public TextArea txtProperties;
-	
 	public AnchorPane mainPane;
 	
 	@Override
@@ -87,7 +79,6 @@ public class Monopoly extends Application {
 		houseImg = getImageFromResource("House.png");
 		hotelImg = getImageFromResource("Hotel.png");
 	}
-	
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -226,11 +217,74 @@ public class Monopoly extends Application {
 	 * This method creates a new Shell that shows the options for creating a new game. 
 	 * When the button is clicked, it sets some values of variables on this class.
 	 */
-	private static void newGame() {
-		//TODO-fix this-make a static/non instance call
-		NewGame ng = new NewGame();
-		System.out.println(ng.toString());
+	private void newGame() {
+		//prompt the user for the number of players
+		String players = MessageBox.showInput("Monopoly", "Enter the number of players: ");
+		int numPlayers;
+		while(true){
+			try {
+				numPlayers = Integer.parseInt(players);
+				if(numPlayers <= 8 && numPlayers >= 2){
+					break;
+				} else {
+					players = MessageBox.showInput("Monopoly", "Enter the number of players: ");
+				}
+			} catch(NumberFormatException e){
+				players = MessageBox.showInput("Monopoly", "Enter the number of players: ");
+			}
+			
+		}
+		// prompt the user for the number of starting cash
+		String cash = MessageBox.showInput("Monopoly", "Enter the starting cash (must be >= 500): ");
+		int numCash;
+		while(true){
+			try {
+				numCash = Integer.parseInt(cash);
+				if (numCash >= 500){
+					break;
+				} else {
+					cash = MessageBox.showInput("Monopoly", "Enter the starting cash (must be > 500): ");
+				}
+			} catch(NumberFormatException e){
+				cash = MessageBox.showInput("Monopoly", "Enter the starting cash (must be > 500): ");
+			}
+		}
+		//prompt for the filename
+		FileChooser fc = new FileChooser();
+		fc.setSelectedExtensionFilter(new ExtensionFilter("Monopoly game file: (*.monop)", "monop"));
+		File f = fc.showSaveDialog(primaryStage);
+		if(f == null){ //the schedule was canceled
+			return;
+		}
+		
+		//set the variables
+		long startTime = System.currentTimeMillis();
+		this.fileName = f.getAbsolutePath();
+		this.primaryStage.setTitle("Monopoly: " + f.getName());
+		
+		this.numPlayers = numPlayers;
+		this.playerLocations = new int[this.numPlayers];
+		this.playerMoney = new int[this.numPlayers];
+		for(int i = 0; i < this.numPlayers; i++){
+			this.playerMoney[i] = numCash;
+		}
+		for (int i = 1; i <= 40; i++){
+			Monopoly.propertyOwns[i-1] = 0;
+			Monopoly.propertyHouses[i-1] = 0;
+		}
+		this.currentPlayer = 1;
+		this.btnRollDice.setDisable(false);
+		this.btnHouseHotel.setDisable(false);
+		
+		this.saveGame();
+		this.redraw();
+
+		//get elapsed time to open
+		long estimatedTime = System.currentTimeMillis() - startTime;
+		System.out.println("Time to create new: " + estimatedTime / 1000.0  + " seconds.");
+
 	}
+
 	
 	private void openGame() {
 		FileChooser fc = new FileChooser();
