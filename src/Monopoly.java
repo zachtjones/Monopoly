@@ -27,47 +27,104 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
- * This class involves a main and runs the basic board game of Monopoly, complete with a SWT User Interface.
+ * This class involves a main and runs the basic board game of Monopoly, complete with a JavaFX User Interface.
  * @author Zach Jones
  *
  */
 public class Monopoly extends Application {
 	//TODO- remove the BetterString class and replace with java String.format(stuff);
+	
+	/** This holds the primaryStage from the start(Stage) method. */
 	public Stage primaryStage;
+	
+	/** This is the canvas that the board, the players, and houses/hotels are drawn on */
 	public Canvas backgroundCanvas;
-	public Image bgImg; 
+	
+	/** This is the background image, the monopoly game's board. */
+	public final Image bgImg;
+	
+	/** The first die that gets rolled */
 	public ImageView dieOne;
+	
+	/** The second die that gets rolled */
 	public ImageView dieTwo;
+	
+	/** This is the button that rolls the dice, moving the current player */
 	public Button btnRollDice;
+	
+	/** This is the button that creates a new game */
 	public Button btnNewGame;
+	
+	/** This is the button that opens an existing game */
 	public Button btnOpenGame;
+	
+	/** This is the button that saves the game */
 	public Button btnSaveGame;
+	
+	/** This is the button that shows the options for houses and hotels,
+	 *  as well as trading/selling properties */
 	public Button btnHouseHotel;
-	public Image die1, die2, die3, die4, die5, die6;
-	public Image p1, p2, p3, p4, p5, p6, p7, p8;
-	public Image houseImg;
-	public Image hotelImg;
+	
+	/** This image holds one of the die's images */
+	public final Image die1, die2, die3, die4, die5, die6;
+	
+	/** This image holds ones of the player's images */
+	public final Image p1, p2, p3, p4, p5, p6, p7, p8;
+	
+	/** This is the image that is used for the houses drawn on the board */
+	public final Image houseImg;
+	
+	/** This is the image that is used for the hotels drawn on the board */
+	public final Image hotelImg;
+	
+	/** This is the drawing surface for the player's locations and money */
 	public Canvas playerPreviewCanvas;
+	
+	/** This label displays the current player */
 	public Label lblCurrentPlayer;
+	
+	/** This is the number of players in this game */
 	public int numPlayers;
+	
+	/** This holds the locations of the players in the game */
 	public int[] playerLocations = {0, 0, 0, 0};
+	
+	/** This holds the money of the players in the game */
 	public int[] playerMoney = {0,0,0,0};
+	
+	/** This holds the current player in the game */
 	public int currentPlayer = 1;
+	
+	/** This holds the filename of the game */
 	public String fileName = "";
-	public static int[] propertyOwns = new int[40]; //the player that owns each property: 0 is bank, 1 is player 1, 2 is player 2, ...
-	public static int[] propertyHouses = new int[40]; //the number of houses on each property: 5 is a hotel
+	
+	/** The player that owns each property, 0 is bank. */
+	public static int[] propertyOwns = new int[40];
+	
+	/** The number of houses on each property, 5 is a hotel, 0 is no houses. */
+	public static int[] propertyHouses = new int[40];
+	
+	/** This is the textbox that displays who owns each property */
 	public TextArea txtProperties;
+	
+	/** This is the main pane that goes in the scene of the primaryStage */
 	public AnchorPane mainPane;
 	
-	@Override
-	public void init(){
+	/**
+	 * Sets up the images for this class. 
+	 * The images are loaded from resources, and are not changed.
+	 */
+	public Monopoly(){
+		//load the background image
 		bgImg = getImageFromResource("monopolygameboard.png");
+		//load the dice's images
 		die1 = getImageFromResource("die1.png");
 		die2 = getImageFromResource("die2.png");
 		die3 = getImageFromResource("die3.png");
 		die4 = getImageFromResource("die4.png");
 		die5 = getImageFromResource("die5.png");
 		die6 = getImageFromResource("die6.png");
+		//load the players' images
 		p1 = getImageFromResource("P1.png");
 		p2 = getImageFromResource("P2.png");
 		p3 = getImageFromResource("P3.png");
@@ -76,15 +133,20 @@ public class Monopoly extends Application {
 		p6 = getImageFromResource("P6.png");
 		p7 = getImageFromResource("P7.png");
 		p8 = getImageFromResource("P8.png");
+		//load the house and hotel images
 		houseImg = getImageFromResource("House.png");
 		hotelImg = getImageFromResource("Hotel.png");
 	}
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		//store the primary stage so it can be accessed later
 		this.primaryStage = primaryStage;
+		
+		//construct the window's pane
 		mainPane = new AnchorPane();
 		
+		//the width of the window to set the locations of the nodes
 		double width = 800.0;
 
 		backgroundCanvas = new Canvas();
@@ -180,6 +242,7 @@ public class Monopoly extends Application {
 		mainPane.getChildren().add(txtProperties);
 		
 		Scene scene = new Scene(mainPane);
+		//create a listener for handling a resize of the window, redrawing the board.
 		ChangeListener<Number> cl = new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, 
@@ -190,7 +253,7 @@ public class Monopoly extends Application {
 		};
 		scene.widthProperty().addListener(cl); //redraw on resize
 		scene.heightProperty().addListener(cl);
-		
+		//show the window and set the size to full screen
 		primaryStage.setScene(scene);
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
@@ -201,7 +264,9 @@ public class Monopoly extends Application {
 	}
 	
 	/**
-	 * This is the main method. Called by the Java Virtual Machine on the thread "main".
+	 * This is the main method. 
+	 * Called by the Java Virtual Machine on the thread "main".
+	 * Launches the application.
 	 */
 	public static void main(String[] args) {
 		System.out.println("Game started");
@@ -285,7 +350,11 @@ public class Monopoly extends Application {
 
 	}
 
-	
+	/**
+	 * Opens a game, showing the filechooser to select the file, 
+	 * and then opening the file unless the user cancels. 
+	 * If the user cancels, then there is no effect.
+	 */
 	private void openGame() {
 		FileChooser fc = new FileChooser();
 		fc.getExtensionFilters().add(new ExtensionFilter("Monopoly game file: (*.monop)", "*.monop"));		
@@ -341,6 +410,9 @@ public class Monopoly extends Application {
 		System.out.println("Time to open game: " + estimatedTime / 1000.0  + " seconds.");
 	}
 
+	/**
+	 * Saves this game to the this class' fileName property.
+	 */
 	private void saveGame() {
 		long startTime = System.currentTimeMillis();
 		try {
@@ -378,6 +450,10 @@ public class Monopoly extends Application {
 		System.out.println("Time to save game: " + estimatedTime / 1000.0  + " seconds.");
 	}
 
+	/**
+	 * Rolls the dice, and moves the current player, 
+	 * calling more methods as needed to handle the actions.
+	 */
 	private void rollDice() {
 		Random r = new Random();
 		int one, two;
