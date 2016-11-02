@@ -214,7 +214,7 @@ public class Monopoly extends Application {
 	}
 	
 	/**
-	 * This method creates a new Shell that shows the options for creating a new game. 
+	 * This method creates dialogs that show the options for creating a new game. 
 	 * When the button is clicked, it sets some values of variables on this class.
 	 */
 	private void newGame() {
@@ -251,12 +251,12 @@ public class Monopoly extends Application {
 		}
 		//prompt for the filename
 		FileChooser fc = new FileChooser();
-		fc.setSelectedExtensionFilter(new ExtensionFilter("Monopoly game file: (*.monop)", "monop"));
+		fc.getExtensionFilters().add(new ExtensionFilter("Monopoly game file: (*.monop)", "*.monop"));
 		File f = fc.showSaveDialog(primaryStage);
 		if(f == null){ //the schedule was canceled
 			return;
 		}
-		
+		System.out.println(f);
 		//set the variables
 		long startTime = System.currentTimeMillis();
 		this.fileName = f.getAbsolutePath();
@@ -288,7 +288,7 @@ public class Monopoly extends Application {
 	
 	private void openGame() {
 		FileChooser fc = new FileChooser();
-		fc.setSelectedExtensionFilter(new ExtensionFilter("Monopoly game file: (*.monop)", "monop"));
+		fc.getExtensionFilters().add(new ExtensionFilter("Monopoly game file: (*.monop)", "*.monop"));		
 		File f = fc.showOpenDialog(primaryStage);
 		if(f == null){ //canceled
 			return;
@@ -344,7 +344,7 @@ public class Monopoly extends Application {
 	private void saveGame() {
 		long startTime = System.currentTimeMillis();
 		try {
-			FileWriter fr = new FileWriter(fileName);
+			FileWriter fr = new FileWriter(this.fileName);
 			BufferedWriter br = new BufferedWriter(fr);
 			String line = "";
 			
