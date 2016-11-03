@@ -183,7 +183,7 @@ public class Monopoly extends Application {
 		btnHouseHotel.setFont(btnRollDice.getFont());
 		btnHouseHotel.setDisable(true);
 		btnHouseHotel.setOnAction(event -> {
-			HouseHotel.showHouseHotel();
+			HouseHotel.show();
 		});
 		mainPane.getChildren().add(btnHouseHotel);
 		
@@ -510,17 +510,17 @@ public class Monopoly extends Application {
 					" landed on Luxury Tax and paid $100 to the bank");
 			break;
 		case 2://community chest
-			ChanceAndCommunityChest.newCommunityChest(currentPlayer);return;
+			ChanceAndCommunityChest.newCommunityChest(currentPlayer, this);return;
 		case 7://chance
-			ChanceAndCommunityChest.newChance(currentPlayer, one + two);return;
+			ChanceAndCommunityChest.newChance(currentPlayer, one + two, this);return;
 		case 17://Community chest
-			ChanceAndCommunityChest.newCommunityChest(currentPlayer);return;
+			ChanceAndCommunityChest.newCommunityChest(currentPlayer, this);return;
 		case 22://chance
-			ChanceAndCommunityChest.newChance(currentPlayer, one + two);return;
+			ChanceAndCommunityChest.newChance(currentPlayer, one + two, this);return;
 		case 33://community chest
-			ChanceAndCommunityChest.newCommunityChest(currentPlayer);return;
+			ChanceAndCommunityChest.newCommunityChest(currentPlayer, this);return;
 		case 36://chance
-			ChanceAndCommunityChest.newChance(currentPlayer, one + two);return;
+			ChanceAndCommunityChest.newChance(currentPlayer, one + two, this);return;
 			
 		default: 
 			if (propertyOwns[playerLocations[currentPlayer - 1]] == 0) {
@@ -577,7 +577,7 @@ public class Monopoly extends Application {
 						"You must sell properties or declare bankruptcy.\nYou need: $" + 
 						-playerMoney[currentPlayer - 1] + 
 						"\nWould you like to sell properties")) { 
-					HouseHotel.showHouseHotel();
+					HouseHotel.show();
 					redraw();
 				} else {
 					//they are out so return everything to the bank
