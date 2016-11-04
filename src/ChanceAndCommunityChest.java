@@ -186,7 +186,7 @@ public class ChanceAndCommunityChest {
 						"You must sell properties or declare bankruptcy.\nYou need: $"
 						+ -monop.playerMoney[monop.currentPlayer - 1] + 
 						"\nWould you like to sell properties") == true) { 
-					HouseHotel.show();
+					HouseHotel.show(monop);
 					monop.redraw();
 				} else {
 					//they are out so return everything to the bank
@@ -307,7 +307,7 @@ public class ChanceAndCommunityChest {
 						+ -monop.playerMoney[monop.currentPlayer - 1] 
 						+ "\nWould you like to sell properties")) { 
 					
-					HouseHotel.show();
+					HouseHotel.show(monop);
 					monop.redraw();
 				} else {
 					//they are out so return everything to the bank
