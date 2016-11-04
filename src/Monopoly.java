@@ -183,7 +183,7 @@ public class Monopoly extends Application {
 		btnHouseHotel.setFont(btnRollDice.getFont());
 		btnHouseHotel.setDisable(true);
 		btnHouseHotel.setOnAction(event -> {
-			HouseHotel.show();
+			HouseHotel.show(this);
 		});
 		mainPane.getChildren().add(btnHouseHotel);
 		
@@ -577,7 +577,7 @@ public class Monopoly extends Application {
 						"You must sell properties or declare bankruptcy.\nYou need: $" + 
 						-playerMoney[currentPlayer - 1] + 
 						"\nWould you like to sell properties")) { 
-					HouseHotel.show();
+					HouseHotel.show(this);
 					redraw();
 				} else {
 					//they are out so return everything to the bank
