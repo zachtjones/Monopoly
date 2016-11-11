@@ -1,282 +1,302 @@
 import java.util.ArrayList;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.widgets.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 
 public class HouseHotel {
 	/**
-	 * The method shows the UI for selling properties/houses and buying properties/houses as a modal dialog. <br>
-	 * This will cause program execution to wait on the response of either: buying/selling a property or buying/selling houses.
+	 * The method shows the UI for selling properties/houses and buying properties/houses 
+	 * as a modal dialog. <br>
+	 * This will cause program execution to wait on the response of either: 
+	 * buying/selling a property or buying/selling houses.
 	 */
-	public static void showHouseHotel() {
+	public static void show(Monopoly monop) {
 		System.out.println("A new UI for houses was created.");
 		final ArrayList<Integer> ownedProps = new ArrayList<Integer>(0);
 		final ArrayList<Integer> ownedOtherProps = new ArrayList<Integer>(0);
 		final ArrayList<Integer> houseGroups = new ArrayList<Integer>(0);
-		Display display = Display.getDefault();
-		final Shell shdlg = new Shell(display, SWT.APPLICATION_MODAL);
-		shdlg.setBounds(Monopoly.sh.getBounds());
-		shdlg.setText("Edit houses and hotels");
 		
-		final Label la = new Label(shdlg, SWT.NONE);
-		la.setBounds(5, 5, 600, 20);
-		la.setText("Player " + Monopoly.currentPlayer + "'s Properties and values:      Other properties   recommeded price");
-		la.setFont(new Font(Monopoly.display, "Courier New", 10, 0));
-		
-		final List lsOwned = new List(shdlg, SWT.MULTI | SWT.V_SCROLL);
-		lsOwned.setBounds(5, 30, 310, 200);
-		lsOwned.setFont(la.getFont());		
-		
-		final List lsBuyFrom = new List(shdlg, SWT.NONE | SWT.V_SCROLL);
-		lsBuyFrom.setBounds(320, 30, 310, 200);
-		lsBuyFrom.setFont(la.getFont());
-		
-		final Label lblInfo = new Label(shdlg, SWT.WRAP);
-		lblInfo.setBounds(640, 30, 310, 200);
-		lblInfo.setFont(la.getFont());
-		lblInfo.setText("Only properties with 0 houses can be bought / sold");
-		
-		final Button btnSell = new Button(shdlg, SWT.PUSH | SWT.WRAP);
-		btnSell.setBounds(5, 235, 150, 75);
-		btnSell.setText("Sell property to bank");
-		btnSell.setFont(new Font(Monopoly.display, "Courier New", 12, 0));
-		btnSell.setEnabled(false);
-		btnSell.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				//sell the property to the bank (set the property as unowned and refund the player)
-				int temp = ownedProps.get(lsOwned.getSelectionIndex());
-				Monopoly.propertyOwns[temp] = 0;
-				Monopoly.playerMoney[Monopoly.currentPlayer - 1] += Locations.costToBuy(temp);
-				shdlg.close();
-				Monopoly.redraw();
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {/*this is never called */}
-		});
-		
-		final Button btnSellTo = new Button(shdlg, SWT.PUSH | SWT.WRAP);
-		btnSellTo.setBounds(160, 235, 150, 75);
-		btnSellTo.setText("Sell property to player");
-		btnSellTo.setFont(btnSell.getFont());
-		btnSellTo.setEnabled(false);
-		btnSellTo.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				int temp = ownedProps.get(lsOwned.getSelectionIndex());
-				try {
-					int num = Integer.parseInt(InputBox.show("What player do you wish to sell " + Locations.getName(temp) + " to?"));
-					int num2 = Integer.parseInt(InputBox.show("What amount do you wish to sell " + Locations.getName(temp) + " for?"));
-					if (num > 0 && num <=Monopoly.numPlayers) {
-						if (MessageBoxShow.show("Sell property", "Does player " + num + " agree to buy " + Locations.getName(temp) + " for $" + num2 + "?", shdlg, SWT.YES | SWT.NO) == SWT.YES) {
-							if (Monopoly.playerMoney[num - 1] >= num2) { //test if the other player has enough money
-								//transfer funds and money
-								Monopoly.playerMoney[Monopoly.currentPlayer - 1] += num2;
-								Monopoly.playerMoney[num - 1] -= num2;
-								Monopoly.propertyOwns[temp] = num;
-								shdlg.close();
-								Monopoly.redraw();
-							} else {
-								MessageBoxShow.show("Not enough funds", "Player " + num + " does not have enough money for this transaction", shdlg, SWT.OK);
-							}
-							
-						}
-					}
-					
-				} catch (NumberFormatException e1) {
-					System.out.println("Number format exception: " + e1.getMessage());
-				}
-			}
+		final Button btnBuyFrom = new Button("Buy property from player");
+		final Button btnSell = new Button("Sell property to bank");
+		final Button btnSellTo = new Button("Sell property to player");
+		final Button btnAddHouses = new Button("Add houses");
+		final Button btnSellHouses = new Button("Sell houses");
 
-			public void widgetDefaultSelected(SelectionEvent e) {/*NOT CALLED*/}
-		});
+		Alert a = new Alert(AlertType.NONE);
+		AnchorPane ap = new AnchorPane();
 		
-		final Button btnBuyFrom = new Button(shdlg, SWT.PUSH | SWT.WRAP);
-		btnBuyFrom.setBounds(320, 235, 310, 75);
-		btnBuyFrom.setText("Buy property from player");
-		btnBuyFrom.setFont(btnSell.getFont());
-		btnBuyFrom.setEnabled(false);
-		btnBuyFrom.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				int temp = ownedOtherProps.get(lsBuyFrom.getSelectionIndex());
-				if (MessageBoxShow.show("Agree to sell", "Does player " + Monopoly.propertyOwns[temp] + " agree to sell " + Locations.getName(temp), shdlg, SWT.YES | SWT.NO) == SWT.YES) {
-					try {
-						int amount = Integer.parseInt(InputBox.show("How much money does player " + Monopoly.propertyOwns[temp] + " wish to sell " + Locations.getName(temp)));
-						if (MessageBoxShow.show("Agree to buy", "Does player " + Monopoly.currentPlayer + " agree to buy " + Locations.getName(temp) + " for $" + amount + "?", shdlg, SWT.YES | SWT.NO) == SWT.YES) {
-							if (Monopoly.playerMoney[Monopoly.currentPlayer - 1] >= amount) { //test if the player has enough money
-								//transfer funds and property
-								Monopoly.playerMoney[Monopoly.currentPlayer - 1] -= amount;
-								Monopoly.playerMoney[Monopoly.propertyOwns[temp] - 1] += amount;
-								Monopoly.propertyOwns[temp] = Monopoly.currentPlayer;
-								shdlg.dispose();
-								Monopoly.redraw();
-							} else {
-								MessageBoxShow.show("Not enough funds", "Player " + Monopoly.currentPlayer + " does not have enough money for this transaction", shdlg, SWT.OK);
-							}
-							
-						}
-					} catch (Exception e1) {
-						System.out.println(e1.getMessage());
-					}
-					
-				}
-			}
-			
-			public void widgetDefaultSelected(SelectionEvent e) {/*Not called*/}
-		});
+		ap.setLayoutX(monop.primaryStage.getX());
+		ap.setLayoutY(monop.primaryStage.getY());
+		ap.setPrefSize(monop.primaryStage.getWidth(), monop.primaryStage.getHeight());
 		
-		lsBuyFrom.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
+		//info label
+		Label lblInfo = new Label(
+				"Only properties with 0 houses can be bought / sold");
+		lblInfo.setLayoutX(5);
+		lblInfo.setLayoutY(5);
+		lblInfo.setFont(new Font("Courier New", 10));
+		ap.getChildren().add(lblInfo);
+		
+		//header label
+		Label lblHeader = new Label("Player " + monop.currentPlayer + 
+				"'s Properties and values:     Other properties   recommended price");
+		lblHeader.setLayoutX(5);
+		lblHeader.setFont(new Font("Courier New", 14));
+		lblHeader.setLayoutY(30);
+		lblHeader.setPrefSize(700, 20);
+		ap.getChildren().add(lblHeader);
+		
+		//choice box - displays what you have
+		ChoiceBox<String> youOwn = new ChoiceBox<>();
+		youOwn.setLayoutX(5);
+		youOwn.setLayoutY(55);
+		youOwn.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				//when selection changes
-				if (lsBuyFrom.getSelectionIndex() > -1) {
-					btnBuyFrom.setEnabled(true);
+				if (newValue.intValue() > -1) {
+					btnSell.setDisable(false);
+					btnSellTo.setDisable(false);
 				}
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				//when it is double-clicked-i don't need to do anything here
+			}		
+		});
+		//youOwn.setPrefSize(310, 40);
+		ap.getChildren().add(youOwn);
+		
+		
+		//choice box - displays what other players have
+		ChoiceBox<String> theyOwn = new ChoiceBox<>();
+		theyOwn.setLayoutX(320);
+		theyOwn.setLayoutY(55);
+		//theyOwn.setPrefSize(310, 40);
+		theyOwn.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, 
+					Number newValue) {
+				//set the buy from button to be enabled when the selection index is not -1
+				btnBuyFrom.setDisable(newValue.intValue() <= -1);
 			}
 		});
+		ap.getChildren().add(theyOwn);
 		
-		lsOwned.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				//when selection changes
-				if (lsOwned.getSelectionIndex() > -1) {
-					btnSell.setEnabled(true);
-					btnSellTo.setEnabled(true);
-				}
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				//when it is double-clicked-i don't need to do anything here
-			}
+		
+		btnSell.setLayoutX(5);
+		btnSell.setLayoutY(235);
+		btnSell.setPrefSize(150, 75);
+		btnSell.setFont(new Font("Courier New", 12));
+		btnSell.setDisable(true);
+		btnSell.setOnAction(event -> {
+			//sell the property to the bank (set the property as unowned and refund the player)
+			int temp = ownedProps.get(youOwn.getSelectionModel().getSelectedIndex());
+			Monopoly.propertyOwns[temp] = 0;
+			monop.playerMoney[monop.currentPlayer - 1] += Locations.costToBuy(temp);
+			a.close();
+			monop.redraw();
 		});
+		ap.getChildren().add(btnSell);
 		
-		final Label lblHouses = new Label(shdlg, SWT.NONE);
-		lblHouses.setBounds(5, 315, 600, 20);
-		lblHouses.setFont(la.getFont());
-		lblHouses.setText("Edit houses/hotels for your groups (5 is a hotel)");
-		
-		final List lsHouses = new List(shdlg, SWT.None | SWT.V_SCROLL);
-		lsHouses.setBounds(5, 335, 625, 200);
-		lsHouses.setFont(la.getFont());
-		
-		final Button btnAddHouses = new Button(shdlg, SWT.PUSH);
-		btnAddHouses.setFont(btnSell.getFont());
-		btnAddHouses.setBounds(5, 540, 310, 75);
-		btnAddHouses.setText("Add houses");
-		btnAddHouses.setEnabled(false);
-		btnAddHouses.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					int temp = houseGroups.get(lsHouses.getSelectionIndex());
-					int temp1 = Integer.parseInt(InputBox.show("Enter the number of houses to add"));
-					
-					int temp2 = Locations.costForHouses(temp, temp1);
-					if (Locations.getNumberOfHouses(temp) + temp1 > 5) {
-						MessageBoxShow.show("More than 5 houses", "You can't have more than 5 houses on a property", shdlg, SWT.OK); 
-					}else if (temp1 <= 0) {
-						MessageBoxShow.show("Negative houses", "You can't add negative or zero houses.", shdlg, SWT.OK);
-					} else {
-						if (Monopoly.playerMoney[Monopoly.currentPlayer - 1] < temp2) {
-							MessageBoxShow.show("Not enough money", "You don't have enough money for this transaction.", shdlg, SWT.OK);
+		btnSellTo.setLayoutX(160);
+		btnSellTo.setLayoutY(235);
+		btnSellTo.setPrefSize(150, 75);
+		btnSellTo.setFont(new Font("Courier New", 12));
+		btnSellTo.setDisable(true);
+		btnSellTo.setOnAction(event -> {
+			int temp = ownedProps.get(youOwn.getSelectionModel().getSelectedIndex());
+			try {
+				int num = Integer.parseInt(MessageBox.showInput("Monopoly", 
+						"What player do you wish to sell " + Locations.getName(temp) + " to?"));
+				int num2 = Integer.parseInt(MessageBox.showInput("Monopoly", 
+						"What amount do you wish to sell " + Locations.getName(temp) + " for?"));
+				if (num > 0 && num <= monop.numPlayers) {
+					if (MessageBox.showYesNo("Sell property", "Does player " + num + " agree to buy "
+							+ Locations.getName(temp) + " for $" + num2 + "?")) {
+						
+						//test if the other player has enough money
+						if (monop.playerMoney[num - 1] >= num2) { 
+							//transfer funds and money
+							monop.playerMoney[monop.currentPlayer - 1] += num2;
+							monop.playerMoney[num - 1] -= num2;
+							Monopoly.propertyOwns[temp] = num;
+							a.close();
+							monop.redraw();
 						} else {
-							if (MessageBoxShow.show("Cost $" + temp2, "This will cost you $" + temp2 + "\nBuy houses?", shdlg, SWT.YES | SWT.NO) == SWT.YES) {
-								Locations.addHouses(temp, temp1);
-								Monopoly.playerMoney[Monopoly.currentPlayer - 1] -= temp2;
-								shdlg.dispose();
-								Monopoly.redraw();
-							}
-						}
-
+							MessageBox.showInfo("Not enough funds", "Player " + num +
+									" does not have enough money for this transaction");
+						}	
 					}
-				} catch (NumberFormatException e1) {
-					System.out.println("Number format exception: " + e1.getMessage());
 				}
 				
-				
+			} catch (NumberFormatException e1) {
+				System.out.println("Number format exception: " + e1.getMessage());
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {/*Not called*/}
 		});
+		ap.getChildren().add(btnSellTo);
 		
-		
-		
-		final Button btnSellHouses = new Button(shdlg, SWT.PUSH);
-		btnSellHouses.setFont(btnSell.getFont());
-		btnSellHouses.setBounds(320, 540, 310, 75);
-		btnSellHouses.setText("Sell houses");
-		btnSellHouses.setEnabled(false);
-		btnSellHouses.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
+		btnBuyFrom.setLayoutX(320);
+		btnBuyFrom.setLayoutY(235);
+		btnBuyFrom.setPrefSize(310, 75);
+		btnBuyFrom.setDisable(true);
+		btnBuyFrom.setFont(new Font("Courier New", 12));
+		btnBuyFrom.setOnAction(event -> {
+			//get the selected index
+			int temp = ownedOtherProps.get(theyOwn.getSelectionModel().getSelectedIndex());
+			
+			if (MessageBox.showYesNo("Agree to sell", "Does player " + Monopoly.propertyOwns[temp]
+					+ " agree to sell " + Locations.getName(temp))) {
 				try {
-					int temp = houseGroups.get(lsHouses.getSelectionIndex());
-					int temp1 = Integer.parseInt(InputBox.show("Enter the number of houses to sell"));
-
-					int temp2 = Locations.costForHouses(temp, temp1);
-					if (Locations.getNumberOfHouses(temp) - temp1 < 0) {
-						MessageBoxShow.show("Less than 0 houses", "You can't have less than 0 houses on a property", shdlg, SWT.OK); 
-					}else if (temp1 <= 0) {
-						MessageBoxShow.show("Negative houses", "You can't remove negative or zero houses.", shdlg, SWT.OK);
-					} else {
-						if (MessageBoxShow.show("Cost $" + temp2, "This will give you $" + temp2 + "\nSell houses?", shdlg, SWT.YES | SWT.NO) == SWT.YES) {
-							Locations.removeHouses(temp, temp1);
-							Monopoly.playerMoney[Monopoly.currentPlayer - 1] += temp2;
-							shdlg.dispose();
-							Monopoly.redraw();
+					int amount = Integer.parseInt(MessageBox.showInput("Enter amount", 
+							"How much money does player " + Monopoly.propertyOwns[temp] + 
+							" wish to sell " + Locations.getName(temp)));
+					
+					if (MessageBox.showYesNo("Agree to buy", "Does player " + monop.currentPlayer + 
+						" agree to buy " + Locations.getName(temp) + " for $" + amount + "?")) {
+						
+						//test if the player has enough money
+						if (monop.playerMoney[monop.currentPlayer - 1] >= amount) { 
+							//transfer funds and property
+							monop.playerMoney[monop.currentPlayer - 1] -= amount;
+							monop.playerMoney[Monopoly.propertyOwns[temp] - 1] += amount;
+							Monopoly.propertyOwns[temp] = monop.currentPlayer;
+							a.close();
+							monop.redraw();
+						} else {
+							MessageBox.showInfo("Not enough funds", "Player " + monop.currentPlayer 
+									+ " does not have enough money for this transaction");
 						}
+						
 					}
 				} catch (NumberFormatException e1) {
-					System.out.println("Number format exception: " + e1.getMessage());
+					System.out.println(e1.getMessage());
 				}
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {/*Not called*/}
 		});
+		ap.getChildren().add(btnBuyFrom);
 		
-		lsHouses.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
+		Label lblHouses = new Label("Edit houses/hotels for your groups (5 is a hotel)");
+		lblHouses.setFont(new Font("Courier New", 12));
+		lblHouses.setLayoutX(5);
+		lblHouses.setLayoutY(315);
+		lblHouses.setPrefSize(600, 20);
+		ap.getChildren().add(lblHouses);
+		
+		ChoiceBox<String> lsHouses = new ChoiceBox<>();
+		lsHouses.setLayoutX(5);
+		lsHouses.setLayoutY(335);
+		lsHouses.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				//when selection changes
-				if (lsHouses.getSelectionIndex() > -1) {
-					btnAddHouses.setEnabled(true);
-					btnSellHouses.setEnabled(true);
+				if (newValue.intValue() > -1) {
+					btnAddHouses.setDisable(false);
+					btnSellHouses.setDisable(false);
 				}
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				//when it is double-clicked-i don't need to do anything here
+		});
+		ap.getChildren().add(lsHouses);
+		
+		btnAddHouses.setFont(btnSell.getFont());
+		btnAddHouses.setLayoutX(5);
+		btnAddHouses.setLayoutY(540);
+		btnAddHouses.setPrefSize(310, 75);
+		btnAddHouses.setDisable(true);
+		btnAddHouses.setOnAction(event -> {
+			try {
+				int temp = houseGroups.get(lsHouses.getSelectionModel().getSelectedIndex());
+				int temp1 = Integer.parseInt(MessageBox.showInput("Monopoly", "Enter the number of houses to add"));
+				
+				int temp2 = Locations.costForHouses(temp, temp1);
+				if (Locations.getNumberOfHouses(temp) + temp1 > 5) {
+					MessageBox.showInfo("More than 5 houses", "You can't have more than 5 houses on a property"); 
+				}else if (temp1 <= 0) {
+					MessageBox.showInfo("Negative houses", "You can't add negative or zero houses.");
+				} else {
+					if (monop.playerMoney[monop.currentPlayer - 1] < temp2) {
+						MessageBox.showInfo("Not enough money", "You don't have enough money for this transaction.");
+					} else {
+						if (MessageBox.showYesNo("Cost $" + temp2, "This will cost you $" + temp2 + "\nBuy houses?")) {
+							Locations.addHouses(temp, temp1);
+							monop.playerMoney[monop.currentPlayer - 1] -= temp2;
+							a.close();
+							monop.redraw();
+						}
+					}
+
+				}
+			} catch (NumberFormatException e1) {
+				System.out.println("Number format exception: " + e1.getMessage());
 			}
 		});
+		ap.getChildren().add(btnAddHouses);
+		
+		btnSellHouses.setFont(btnSell.getFont());
+		btnSellHouses.setLayoutX(320);
+		btnSellHouses.setLayoutY(540);
+		btnSellHouses.setPrefSize(310, 75);
+		btnSellHouses.setDisable(true);
+		btnSellHouses.setOnAction(event -> {
+			try {
+				int temp = houseGroups.get(lsHouses.getSelectionModel().getSelectedIndex());
+				int temp1 = Integer.parseInt(MessageBox.showInput("Monopoly", "Enter the number of houses to sell"));
+
+				int temp2 = Locations.costForHouses(temp, temp1);
+				if (Locations.getNumberOfHouses(temp) - temp1 < 0) {
+					MessageBox.showInfo("Less than 0 houses", "You can't have less than 0 houses on a property"); 
+				}else if (temp1 <= 0) {
+					MessageBox.showInfo("Negative houses", "You can't remove negative or zero houses.");
+				} else {
+					if (MessageBox.showYesNo("Cost $" + temp2, "This will give you $" + temp2 + "\nSell houses?")) {
+						Locations.removeHouses(temp, temp1);
+						monop.playerMoney[monop.currentPlayer - 1] += temp2;
+						a.close();
+						monop.redraw();
+					}
+				}
+			} catch (NumberFormatException e1) {
+				System.out.println("Number format exception: " + e1.getMessage());
+			}
+		});
+		ap.getChildren().add(btnSellHouses);
 		
 		for (int i = 1; i < 40; i++) { 
-			if (Monopoly.propertyOwns[i] == Monopoly.currentPlayer && Monopoly.propertyHouses[i] == 0) { //you can't buy or sell a property with houses on it
-				lsOwned.add(BetterString.padRight(Locations.getName(i), 25) + " $" + Locations.costToBuy(i));
+			ArrayList<String> temp = new ArrayList<>();
+			//you can't buy or sell a property with houses on it
+			if (Monopoly.propertyOwns[i] == monop.currentPlayer && Monopoly.propertyHouses[i] == 0) { 
+				temp.add(BetterString.padRight(Locations.getName(i), 25) + " $" + Locations.costToBuy(i));
 				ownedProps.add(i);
 			}
-			if (Monopoly.propertyOwns[i] != 0 && Monopoly.propertyOwns[i] != Monopoly.currentPlayer && Monopoly.propertyHouses[i] == 0) {
-				lsBuyFrom.add(BetterString.padRight(Locations.getName(i), 25) + " $" + Locations.costToBuy(i));
+			youOwn.setItems(FXCollections.observableArrayList(temp));
+			temp.clear();
+			if (Monopoly.propertyOwns[i] != 0 && Monopoly.propertyOwns[i] != monop.currentPlayer && Monopoly.propertyHouses[i] == 0) {
+				temp.add(BetterString.padRight(Locations.getName(i), 25) + " $" + Locations.costToBuy(i));
 				ownedOtherProps.add(i);
 			}
+			theyOwn.setItems(FXCollections.observableArrayList(temp));
 		}
 		
+		ArrayList<String> tempHouses = new ArrayList<>();
 		for (int i = 0; i <= 7; i++) {
-			if (Locations.canAddHouses(i, Monopoly.currentPlayer) || Locations.canRemoveHouses(i,  Monopoly.currentPlayer)) {
-				lsHouses.add(Locations.getNameOfGroup(i) + ": Houses: " + Locations.getNumberOfHouses(i));
+			if (Locations.canAddHouses(i, monop.currentPlayer) || Locations.canRemoveHouses(i,  monop.currentPlayer)) {
+				tempHouses.add(Locations.getNameOfGroup(i) + ": Houses: " + Locations.getNumberOfHouses(i));
 				houseGroups.add(i);
 			}
 		}
+		lsHouses.setItems(FXCollections.observableArrayList(tempHouses));
 		
-		final Button btnClose = new Button(shdlg, SWT.PUSH);
-		btnClose.setBounds(5, 630, 625, 150);
-		btnClose.setFont(new Font(display, "Courier New", 16, SWT.NONE));
-		btnClose.setText("Cancel");
-		btnClose.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				shdlg.dispose();
-			}
-			public void widgetDefaultSelected(SelectionEvent e) { /*Not called*/ }
-		});
-		shdlg.open();
+		a.getDialogPane().setContent(ap);
+		ButtonType b = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 		
-		while (!shdlg.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
+		a.setTitle("Edit properties, houses, and hotels");
+		a.getButtonTypes().add(b);
+		a.showAndWait();
 	}
 }
