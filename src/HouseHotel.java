@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -27,8 +26,8 @@ public class HouseHotel {
 		final ArrayList<Integer> houseGroups = new ArrayList<Integer>(0);
 		
 		final Button btnBuyFrom = new Button("Buy property from player");
-		final Button btnSell = new Button("Sell property to bank");
-		final Button btnSellTo = new Button("Sell property to player");
+		final Button btnSell = new Button("Sell property \nto bank");
+		final Button btnSellTo = new Button("Sell property \nto player");
 		final Button btnAddHouses = new Button("Add houses");
 		final Button btnSellHouses = new Button("Sell houses");
 
@@ -274,13 +273,13 @@ public class HouseHotel {
 				temp.add(BetterString.padRight(Locations.getName(i), 25) + " $" + Locations.costToBuy(i));
 				ownedProps.add(i);
 			}
-			youOwn.setItems(FXCollections.observableArrayList(temp));
+			youOwn.getItems().addAll(temp);
 			temp.clear();
 			if (Monopoly.propertyOwns[i] != 0 && Monopoly.propertyOwns[i] != monop.currentPlayer && Monopoly.propertyHouses[i] == 0) {
 				temp.add(BetterString.padRight(Locations.getName(i), 25) + " $" + Locations.costToBuy(i));
 				ownedOtherProps.add(i);
 			}
-			theyOwn.setItems(FXCollections.observableArrayList(temp));
+			theyOwn.getItems().addAll(temp);
 		}
 		
 		ArrayList<String> tempHouses = new ArrayList<>();
@@ -290,8 +289,8 @@ public class HouseHotel {
 				houseGroups.add(i);
 			}
 		}
-		lsHouses.setItems(FXCollections.observableArrayList(tempHouses));
-		
+		lsHouses.getItems().addAll(tempHouses);
+				
 		a.getDialogPane().setContent(ap);
 		ButtonType b = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 		

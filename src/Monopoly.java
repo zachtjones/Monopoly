@@ -32,7 +32,6 @@ import javafx.stage.Stage;
  *
  */
 public class Monopoly extends Application {
-	//TODO- remove the BetterString class and replace with java String.format(stuff);
 	
 	/** This holds the primaryStage from the start(Stage) method. */
 	public Stage primaryStage;
@@ -710,6 +709,7 @@ public class Monopoly extends Application {
 		
 		//draw on the player preview
 		GraphicsContext gc2 = playerPreviewCanvas.getGraphicsContext2D();
+		gc2.clearRect(0, 0, playerPreviewCanvas.getWidth(), playerPreviewCanvas.getHeight());
 		//gc2.setFont(new Font("Courier New", 12));
 		gc2.fillText("Players:", 10, 10);
 		for (int i = 1; i<=numPlayers; i++) {
